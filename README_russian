@@ -1,0 +1,130 @@
+Coinbase Wallet SDK позволяет dApps подключаться к Coinbase Wallet
+
+Coinbase Smart Wallet
+
+Документация
+
+Coinbase Wallet мобильная версия для Android
+ и iOS
+
+Desktop: пользователи могут подключиться к dApp, сканируя QR-код
+
+Mobile: пользователи могут подключиться к мобильному dApp через deeplink в браузер приложения
+
+Coinbase Wallet расширение для Chrome
+ и Brave
+
+Desktop: пользователи могут подключиться, нажав на опцию подключения через расширение
+
+Установка Wallet SDK
+
+Проверить доступные версии:
+
+  # yarn
+  yarn info @coinbase/wallet-sdk versions
+
+  # npm
+  npm view @coinbase/wallet-sdk versions
+
+
+Установить последнюю версию:
+
+# yarn
+yarn add @coinbase/wallet-sdk
+
+# npm
+npm install @coinbase/wallet-sdk
+
+
+Проверить установленную версию:
+
+# yarn
+yarn list @coinbase/wallet-sdk
+
+# npm
+npm list @coinbase/wallet-sdk
+
+Обновление Wallet SDK
+
+Переходите с v3 на v4? Ознакомьтесь с нашим руководством по миграции v4
+ для полного списка изменений.
+
+Сравнить установленную версию с последней:
+
+# yarn
+yarn outdated @coinbase/wallet-sdk
+
+# npm
+npm outdated @coinbase/wallet-sdk
+
+
+Обновить до последней версии:
+
+# yarn
+yarn upgrade @coinbase/wallet-sdk --latest
+
+# npm
+npm update @coinbase/wallet-sdk
+
+Базовое использование
+
+Инициализация SDK
+
+const sdk = new CoinbaseWalletSDK({
+  appName: 'SDK Playground',
+});
+
+
+Создание web3 Provider
+
+const provider = sdk.makeWeb3Provider();
+
+
+Запрос аккаунтов для подключения к кошельку
+
+const addresses = provider.request({
+  method: 'eth_requestAccounts',
+});
+
+
+Выполнение запросов
+
+provider.request('personal_sign', [
+  `0x${Buffer.from('test message', 'utf8').toString('hex')}`,
+  addresses[0],
+]);
+
+
+Обработка событий провайдера
+
+provider.on('connect', (info) => {
+  setConnect(info);
+});
+
+provider.on('disconnect', (error) => {
+  setDisconnect({ code: error.code, message: error.message });
+});
+
+provider.on('accountsChanged', (accounts) => {
+  setAccountsChanged(accounts);
+});
+
+provider.on('chainChanged', (chainId) => {
+  setChainChanged(chainId);
+});
+
+provider.on('message', (message) => {
+  setMessage(message);
+});
+
+Локальная разработка и запуск тестового dApp
+
+Тестовый dApp Coinbase Wallet SDK доступен здесь: https://coinbase.github.io/coinbase-wallet-sdk/
+
+Чтобы запустить локально, выполните шаги:
+
+Сделайте fork репозитория и клонируйте его
+
+В корневой папке выполните yarn install
+
+В корневой папке выполните yarn dev
